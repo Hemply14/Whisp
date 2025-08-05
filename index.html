@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisp - Your Cozy Digital Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== GLOBAL STYLES ========== */
+        :root {
+            --mocha: #6F4E37;
+            --espresso: #3C2415;
+            --latte: #D2B48C;
+            --cream: #F5F5DC;
+            --caramel: #D2691E;
+            --burnt-sienna: #A0522D;
+            --dark-roast: #2F1B14;
+            --light-cream: #FAF9F6;
+            --gradient-warm: linear-gradient(135deg, var(--mocha) 0%, var(--caramel) 100%);
+            --shadow-soft: 0 4px 20px rgba(111, 78, 55, 0.15);
+            --shadow-hover: 0 8px 30px rgba(111, 78, 55, 0.25);
+            
+            --container-padding: 20px;
+            --card-padding: 2rem;
+            --font-size-base: 1rem;
+            --font-size-h1: 3.5rem;
+            --font-size-h2: 2rem;
+            --btn-padding: 12px 30px;
+            --nav-height: 80px;
+        }
+
+        @media (max-width: 1024px) {
+            :root {
+                --container-padding: 16px;
+                --card-padding: 1.5rem;
+                --font-size-h1: 2.8rem;
+                --font-size-h2: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 12px;
+                --card-padding: 1.2rem;
+                --font-size-base: 0.95rem;
+                --font-size-h1: 2.2rem;
+                --font-size-h2: 1.5rem;
+                --btn-padding: 10px 24px;
+                --nav-height: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --container-padding: 8px;
+                --card-padding: 1rem;
+                --font-size-base: 0.9rem;
+                --font-size-h1: 1.8rem;
+                --font-size-h2: 1.3rem;
+                --btn-padding: 8px 20px;
+                --nav-height: 60px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light-cream) 0%, var(--cream) 100%);
+            color: var(--dark-roast);
+            line-height: 1.6;
+            min-height: 100vh;
+            font-size: var(--font-size-base);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            background: var(--gradient-warm);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between !important;
+            align-items: center;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 769px) {
+            .nav-content {
+                justify-content: center;
+            }
+    
+            .nav-links {
+                margin-left: 2rem;
+            }
+        }
+
+        .logo {
+            color: var(--light-cream);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            height: 100%;
+        }
+
+        .logo::before {
+            content: "☕";
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            margin-left: 2rem;
+        }
+
+        .nav-links li:first-child a {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light-cream);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            padding: 2rem 0;
+            min-height: calc(100vh - var(--nav-height));
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== CARDS & COMPONENTS ========== */
+        .card {
+            background: white;
+            border-radius: clamp(10px, 2vw, 15px);
+            padding: var(--card-padding);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            background: var(--gradient-warm);
+            color: white;
+            border: none;
+            padding: var(--btn-padding);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: var(--latte);
+            color: var(--dark-roast);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--mocha);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: clamp(10px, 2vw, 15px);
+            border: 2px solid var(--latte);
+            border-radius: 10px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            background: var(--light-cream);
+            min-height: 44px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--mocha);
+            background: white;
+        }
+
+        /* ========== LANDING PAGE ========== */
+        .hero {
+            text-align: center;
+            padding: clamp(2rem, 6vw, 4rem) 0;
+            background: var(--gradient-warm);
+            color: white;
+            margin: -2rem calc(-1 * var(--container-padding)) 2rem calc(-1 * var(--container-padding));
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-h1);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item h3 {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        /* ========== AUTH PAGES ========== */
+        .auth-container {
+            max-width: min(400px, calc(100vw - 40px));
+            margin: 4rem auto;
+            padding: 0 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            padding: clamp(2rem, 5vw, 3rem);
+            box-shadow: var(--shadow-hover);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            color: var(--mocha);
+            margin-bottom: 2rem;
+            font-size: var(--font-size-h2);
+        }
+
+        .auth-form {
+            text-align: left;
+        }
+
+        .auth-link {
+            color: var(--mocha);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            color: var(--caramel);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #2e7d32;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* ========== FEED STYLES ========== */
+        .post {
+            background: white;
+            border-radius: clamp(10px, 2vw, 15px);
+            padding: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .post-avatar {
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            border-radius: 50%;
+            background: var(--gradient-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            flex-shrink: 0;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cream);
+            flex-wrap: wrap;
+        }
+
+        .post-action {
+            background: none;
+            border: none;
+            color: var(--mocha);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+
+        .post-action:hover {
+            background: var(--cream);
+        }
+
+        .post-action.liked {
+            color: var(--caramel);
+            background: var(--cream);
+        }
+
+        /* ========== JOURNAL STYLES ========== */
+        .journal-entry {
+            border-left: 4px solid var(--mocha);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .journal-entry.private {
+            border-left-color: var(--caramel);
+            background: rgba(210, 105, 30, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .journal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            color: var(--mocha);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .privacy-badge {
+            background: var(--mocha);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+        }
+
+        .privacy-badge.private {
+            background: var(--caramel);
+        }
+
+        /* ========== SETTINGS STYLES ========== */
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h3 {
+            color: var(--mocha);
+            margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: clamp(50px, 10vw, 60px);
+            height: clamp(28px, 6vw, 34px);
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: clamp(22px, 5vw, 26px);
+            width: clamp(22px, 5vw, 26px);
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--mocha);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(clamp(18px, 4vw, 26px));
+        }
+
+        .settings-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ========== ALERT STYLES ========== */
+        .alert {
+            position: fixed;
+            top: calc(var(--nav-height) + 20px);
+            right: 20px;
+            background: var(--gradient-warm);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-hover);
+            max-width: min(350px, calc(100vw - 40px));
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.5s ease;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        .alert.show {
+            transform: translateX(0);
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .alert-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+
+        .alert-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ========== SPEECH MODE INDICATOR ========== */
+        .speech-mode-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--mocha);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            z-index: 1000;
+            box-shadow: var(--shadow-soft);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            max-width: calc(100vw - 40px);
+        }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--mocha);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+                box-shadow: var(--shadow-soft);
+                align-items: stretch;
+                margin-left: 0 !important;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                text-align: center;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .alert {
+                left: 10px;
+                right: 10px;
+                max-width: calc(100vw - 20px);
+                transform: translateY(-100px);
+            }
+
+            .alert.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .speech-mode-indicator {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                text-align: center;
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+        }
+
+        /* ========== ACCESSIBILITY ========== */
+        *:focus-visible {
+            outline: 3px solid var(--caramel);
+            outline-offset: 2px;
+        }
+
+        button, .btn, input, select, textarea, a {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo" onclick="showPage('landing')">Whisp</a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" onclick="showPage('feed')" data-page="feed">Feed</a></li>
+                    <li><a href="#" onclick="showPage('journal')" data-page="journal">Journal</a></li>
+                    <li><a href="#" onclick="showPage('settings')" data-page="settings">Settings</a></li>
+                    <li><a href="#" onclick="logout()" id="logoutBtn" style="display: none;">Logout</a></li>
+                    <li><a href="#" onclick="showPage('login')" id="loginBtn">Login</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="page active">
+            <div class="hero">
+                <h1>Welcome to Whisp</h1>
+                <p>Your cozy digital space for journaling, challenges, and mindful living</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn" onclick="showPage('signup')">Get Started</a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('login')">Sign In</a>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="card">
+                    <h2>Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h3>📖 Personal Journal</h3>
+                            <p>Keep your thoughts safe with privacy controls</p>
+                        </div>
+                        <div class="feature-item">
+                            <h3>🏆 Daily Challenges</h3>
+                            <p>Stay motivated with personalized daily goals</p>
+                        </div>
+                        <div class="feature-item">
+                            <h3>🗣️ Accessibility First</h3>
+                            <p>Voice interactions and inclusive design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Welcome Back</h2>
+                    <form class="auth-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required aria-describedby="loginEmailError">
+                            <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" required aria-describedby="loginPasswordError">
+                            <div class="error-message" id="loginPasswordError">Password is required</div>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Sign In</button>
+                        <div class="success-message" id="loginSuccess">Login successful! Redirecting...</div>
+                    </form>
+                    <p>Don't have an account? <a href="#" class="auth-link" onclick="showPage('signup')">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div id="signup" class="page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Join Whisp</h2>
+                    <form class="auth-form" id="signupForm">
+                        <div class="form-group">
+                            <label for="signupName">Full Name</label>
+                            <input type="text" id="signupName" required aria-describedby="signupNameError">
+                            <div class="error-message" id="signupNameError">Name is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" required aria-describedby="signupEmailError">
+                            <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" required aria-describedby="signupPasswordError">
+                            <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" required aria-describedby="signupConfirmPasswordError">
+                            <div class="error-message" id="signupConfirmPasswordError">Passwords don't match</div>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Create Account</button>
+                        <div class="success-message" id="signupSuccess">Account created! Redirecting...</div>
+                    </form>
+                    <p>Already have an account? <a href="#" class="auth-link" onclick="showPage('login')">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Page -->
+        <div id="feed" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">Your Feed</h1>
+                
+                <div id="feedContainer">
+                    <!-- Sample posts will be loaded here -->
+                </div>
+                
+                <div class="card">
+                    <h3>Share Something</h3>
+                    <form id="newPostForm">
+                        <div class="form-group">
+                            <textarea id="postContent" placeholder="What's on your mind?" rows="3" aria-label="Post content"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Share</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journal Page -->
+        <div id="journal" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">My Journal</h1>
+                
+                <div class="card">
+                    <h3>New Entry</h3>
+                    <form id="journalForm">
+                        <div class="form-group">
+                            <label for="journalTitle">Title</label>
+                            <input type="text" id="journalTitle" placeholder="Entry title..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="journalContent">Content</label>
+                            <textarea id="journalContent" placeholder="What's on your mind today?" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="journalPrivacy">Privacy</label>
+                            <select id="journalPrivacy">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Save Entry</button>
+                    </form>
+                </div>
+
+                <div id="journalEntries">
+                    <!-- Journal entries will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settings" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">Settings</h1>
+                
+                <div class="card">
+                    <div class="settings-section">
+                        <h3>Account Settings</h3>
+                        <form id="accountForm">
+                            <div class="form-group">
+                                <label for="accountName">Full Name</label>
+                                <input type="text" id="accountName" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="accountEmail">Email</label>
+                                <input type="email" id="accountEmail" value="">
+                            </div>
+                            <button type="submit" class="btn">Update Account</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="settings-section">
+                        <h3>Preferences</h3>
+                        <div class="settings-toggle">
+                            <label>Daily Challenge Notifications</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notificationsToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-toggle">
+                            <label>Parental Controls</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="parentalControlToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-toggle">
+                            <label>Voice Interactions</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="voiceToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Challenge Alert -->
+    <div id="challengeAlert" class="alert">
+        <div class="alert-header">
+            <strong>Daily Challenge ☀️</strong>
+            <button class="alert-close" onclick="dismissAlert()" aria-label="Close alert">&times;</button>
+        </div>
+        <p id="challengeText">Take a 5-minute mindfulness break and reflect on three things you're grateful for today.</p>
+        <div class="alert-actions">
+            <button class="alert-btn" onclick="acceptChallenge()">Accept</button>
+            <button class="alert-btn" onclick="snoozeAlert()">Snooze</button>
+        </div>
+    </div>
+
+    <script>
+    // ========== GLOBAL STATE ==========
+    let currentUser = null;
+    let buttonClickStates = new Map();
+    let alertInterval = null;
+    let isAlertSnoozed = false;
+
+    // Sample data
+    const samplePosts = [
+        {
+            id: 1,
+            author: "Coffee Lover",
+            avatar: "CL",
+            content: "Just had the most amazing latte art experience! Sometimes the simple pleasures make the biggest difference. ☕✨",
+            timestamp: "2 hours ago",
+            likes: 12,
+            comments: 3,
+            liked: false
+        },
+        {
+            id: 2,
+            author: "Mindful Maven",
+            avatar: "MM",
+            content: "Completed my morning journaling session. There's something magical about putting thoughts to paper with a warm cup in hand.",
+            timestamp: "4 hours ago",
+            likes: 8,
+            comments: 1,
+            liked: false
+        },
+        {
+            id: 3,
+            author: "Daily Challenger",
+            avatar: "DC",
+            content: "Day 15 of my gratitude challenge! Today I'm grateful for cozy spaces, good books, and the community here at Whisp. 🙏",
+            timestamp: "6 hours ago",
+            likes: 15,
+            comments: 5,
+            liked: false
+        }
+    ];
+
+    const dailyChallenges = [
+        "Take a 5-minute mindfulness break and reflect on three things you're grateful for today.",
+        "Write down one small goal for today and take the first step toward achieving it.",
+        "Reach out to someone you care about and let them know you're thinking of them.",
+        "Spend 10 minutes in nature or by a window, observing the world around you.",
+        "Practice deep breathing for 3 minutes and notice how your body feels.",
+        "Create something small - a doodle, a poem, or rearrange a space you love.",
+        "Take a break from screens for 30 minutes and engage in a mindful activity."
+    ];
+
+    // ========== INITIALIZATION ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeSampleData();
+        loadUserData();
+        loadJournalEntries();
+        loadFeedPosts();
+        setupEventListeners();
+        startDailyChallengeAlerts();
+        
+        // Show the speech mode indicator when the page loads
+        setTimeout(addSpeechModeIndicator, 2000);
+        
+        // Check if user is logged in
+        if (localStorage.getItem('whispUser')) {
+            currentUser = JSON.parse(localStorage.getItem('whispUser'));
+            updateAuthState(true);
+        }
+        
+        setupResponsiveHandlers();
+    });
+
+    // ========== NAVIGATION ==========
+    function showPage(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Show selected page
+        document.getElementById(pageId).classList.add('active');
+        
+        // Update navigation active state
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+
+        // Close mobile menu
+        document.getElementById('navLinks').classList.remove('active');
+
+        // Restricted pages check
+        if (['feed', 'journal', 'settings'].includes(pageId) && !currentUser) {
+            showPage('login');
+            return;
+        }
+
+        // Scroll to top on page change
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+        
+        // Update aria attributes for accessibility
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        const isExpanded = navLinks.classList.contains('active');
+        toggle.setAttribute('aria-expanded', isExpanded);
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        const navLinks = document.getElementById('navLinks');
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navLinks.contains(e.target) && !toggle.contains(e.target)) {
+            navLinks.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // ========== EVENT LISTENERS ==========
+    function setupEventListeners() {
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        // Signup form
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleSignup();
+        });
+
+        // Account settings form
+        document.getElementById('accountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateAccountSettings();
+        });
+
+        // Journal form
+        document.getElementById('journalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveJournalEntry();
+        });
+
+        // New post form
+        document.getElementById('newPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createNewPost();
+        });
+
+        // Settings toggles
+        document.getElementById('parentalControlToggle').addEventListener('change', function() {
+            localStorage.setItem('parentalControls', this.checked);
+        });
+
+        document.getElementById('notificationsToggle').addEventListener('change', function() {
+            localStorage.setItem('challengeNotifications', this.checked);
+            if (this.checked) {
+                startDailyChallengeAlerts();
+            } else {
+                stopDailyChallengeAlerts();
+            }
+        });
+
+        document.getElementById('voiceToggle').addEventListener('change', function() {
+            localStorage.setItem('voiceInteractions', this.checked);
+            if (this.checked) {
+                setTimeout(addSpeechModeIndicator, 500);
+            }
+        });
+    }
+
+    // ========== AUTHENTICATION ==========
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    function hideError(elementId) {
+        document.getElementById(elementId).style.display = 'none';
+    }
+
+    function showSuccess(elementId, message) {
+        const successElement = document.getElementById(elementId);
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+    }
+
+    function handleLogin() {
+        // Clear previous errors
+        hideError('loginEmailError');
+        hideError('loginPasswordError');
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        let isValid = true;
+
+        // Validation
+        if (!email || !validateEmail(email)) {
+            showError('loginEmailError', 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!password) {
+            showError('loginPasswordError', 'Password is required');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Simulate successful login
+            currentUser = {
+                name: 'Demo User',
+                email: email,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            showSuccess('loginSuccess', 'Login successful! Redirecting...');
+            
+            setTimeout(() => {
+                updateAuthState(true);
+                showPage('feed');
+            }, 1500);
+        }
+    }
+
+    function handleSignup() {
+        // Clear previous errors
+        hideError('signupNameError');
+        hideError('signupEmailError');
+        hideError('signupPasswordError');
+        hideError('signupConfirmPasswordError');
+
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        let isValid = true;
+
+        // Validation
+        if (!name.trim()) {
+            showError('signupNameError', 'Full name is required');
+            isValid = false;
+        }
+
+        if (!email || !validateEmail(email)) {
+            showError('signupEmailError', 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!password || password.length < 6) {
+            showError('signupPasswordError', 'Password must be at least 6 characters long');
+            isValid = false;
+        }
+
+        if (password !== confirmPassword) {
+            showError('signupConfirmPasswordError', 'Passwords do not match');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Simulate successful signup
+            currentUser = {
+                name: name,
+                email: email,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            showSuccess('signupSuccess', 'Account created successfully! Redirecting...');
+            
+            setTimeout(() => {
+                updateAuthState(true);
+                showPage('feed');
+            }, 1500);
+        }
+    }
+
+    function updateAuthState(isLoggedIn) {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        if (isLoggedIn) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+            loadUserData();
+        } else {
+            loginBtn.style.display = 'block';
+            logoutBtn.style.display = 'none';
+        }
+    }
+
+    function logout() {
+        currentUser = null;
+        localStorage.removeItem('whispUser');
+        updateAuthState(false);
+        showPage('landing');
+    }
+
+    function loadUserData() {
+        if (currentUser) {
+            document.getElementById('accountName').value = currentUser.name || '';
+            document.getElementById('accountEmail').value = currentUser.email || '';
+        }
+        
+        // Load settings from localStorage
+        document.getElementById('parentalControlToggle').checked = 
+            localStorage.getItem('parentalControls') === 'true';
+        document.getElementById('notificationsToggle').checked = 
+            localStorage.getItem('challengeNotifications') !== 'false';
+        document.getElementById('voiceToggle').checked = 
+            localStorage.getItem('voiceInteractions') !== 'false';
+    }
+
+    function updateAccountSettings() {
+        const name = document.getElementById('accountName').value;
+        const email = document.getElementById('accountEmail').value;
+        
+        if (currentUser) {
+            currentUser.name = name;
+            currentUser.email = email;
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            
+            // Show success message
+            const btn = document.querySelector('#accountForm button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Updated!';
+            btn.style.background = 'var(--burnt-sienna)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+    }
+
+    // ========== JOURNAL FUNCTIONALITY ==========
+    function saveJournalEntry() {
+        const title = document.getElementById('journalTitle').value;
+        const content = document.getElementById('journalContent').value;
+        const privacy = document.getElementById('journalPrivacy').value;
+        
+        if (!title.trim() || !content.trim()) {
+            alert('Please fill in both title and content');
+            return;
+        }
+        
+        const entry = {
+            id: Date.now(),
+            title: title,
+            content: content,
+            privacy: privacy,
+            timestamp: new Date().toLocaleString(),
+            author: currentUser ? currentUser.name : 'Anonymous'
+        };
+        
+        let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+        entries.unshift(entry);
+        localStorage.setItem('journalEntries', JSON.stringify(entries));
+        
+        // Clear form
+        document.getElementById('journalTitle').value = '';
+        document.getElementById('journalContent').value = '';
+        document.getElementById('journalPrivacy').value = 'private';
+        
+        // Reload entries
+        loadJournalEntries();
+        
+        // Show success
+        const btn = document.querySelector('#journalForm button');
+        const originalText = btn.textContent;
+        btn.textContent = 'Saved!';
+        btn.style.background = 'var(--burnt-sienna)';
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+        }, 2000);
+    }
+
+    function loadJournalEntries() {
+        const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+        const container = document.getElementById('journalEntries');
+        
+        if (entries.length === 0) {
+            container.innerHTML = '<div class="card"><p style="text-align: center; color: var(--mocha); font-style: italic;">No journal entries yet. Start by creating your first entry above!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = entries.map(entry => `
+            <div class="card">
+                <div class="journal-entry ${entry.privacy}">
+                    <div class="journal-meta">
+                        <span><strong>${entry.title}</strong></span>
+                        <div>
+                            <span class="privacy-badge ${entry.privacy}">${entry.privacy}</span>
+                            <span style="margin-left: 1rem;">${entry.timestamp}</span>
+                        </div>
+                    </div>
+                    <p>${entry.content}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ========== FEED FUNCTIONALITY ==========
+    function loadFeedPosts() {
+        const posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        const container = document.getElementById('feedContainer');
+        
+        container.innerHTML = posts.map(post => `
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-avatar">${post.avatar}</div>
+                    <div>
+                        <h4>${post.author}</h4>
+                        <span style="color: var(--mocha); font-size: 0.9rem;">${post.timestamp}</span>
+                    </div>
+                </div>
+                <p>${post.content}</p>
+                <div class="post-actions">
+                    <button class="post-action ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})" aria-label="Like post">
+                        ${post.liked ? '❤️' : '🤍'} ${post.likes}
+                    </button>
+                    <button class="post-action" onclick="showComments(${post.id})" aria-label="View comments">
+                        💬 ${post.comments}
+                    </button>
+                    <button class="post-action" onclick="sharePost(${post.id})" aria-label="Share post">
+                        📤 Share
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function createNewPost() {
+        const content = document.getElementById('postContent').value.trim();
+        
+        if (!content) {
+            alert('Please write something to share!');
+            return;
+        }
+        
+        const newPost = {
+            id: Date.now(),
+            author: currentUser ? currentUser.name : 'Anonymous',
+            avatar: currentUser ? currentUser.name.split(' ').map(n => n[0]).join('') : 'A',
+            content: content,
+            timestamp: 'Just now',
+            likes: 0,
+            comments: 0,
+            liked: false
+        };
+        
+        let posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        posts.unshift(newPost);
+        localStorage.setItem('feedPosts', JSON.stringify(posts));
+        
+        // Clear form
+        document.getElementById('postContent').value = '';
+        
+        // Reload feed
+        loadFeedPosts();
+    }
+
+    function toggleLike(postId) {
+        let posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        const post = posts.find(p => p.id === postId);
+        
+        if (post) {
+            post.liked = !post.liked;
+            post.likes += post.liked ? 1 : -1;
+            localStorage.setItem('feedPosts', JSON.stringify(posts));
+            loadFeedPosts();
+        }
+    }
+
+    function showComments(postId) {
+        alert('Comments feature coming soon! 💬');
+    }
+
+    function sharePost(postId) {
+        alert('Post shared! 📤');
+    }
+
+    // ========== DAILY CHALLENGE ALERTS ==========
+    function startDailyChallengeAlerts() {
+        if (localStorage.getItem('challengeNotifications') === 'false') return;
+        
+        // For demo purposes, show alert every 30 seconds
+        alertInterval = setInterval(() => {
+            if (!isAlertSnoozed) {
+                showDailyChallengeAlert();
+            }
+        }, 30000);
+        
+        // Show initial alert after 5 seconds
+        setTimeout(() => {
+            if (!isAlertSnoozed) {
+                showDailyChallengeAlert();
+            }
+        }, 5000);
+    }
+
+    function stopDailyChallengeAlerts() {
+        if (alertInterval) {
+            clearInterval(alertInterval);
+            alertInterval = null;
+        }
+    }
+
+    function showDailyChallengeAlert() {
+        const randomChallenge = dailyChallenges[Math.floor(Math.random() * dailyChallenges.length)];
+        document.getElementById('challengeText').textContent = randomChallenge;
+        document.getElementById('challengeAlert').classList.add('show');
+    }
+
+    function dismissAlert() {
+        document.getElementById('challengeAlert').classList.remove('show');
+    }
+
+    function acceptChallenge() {
+        dismissAlert();
+        alert('Great! You\'ve accepted today\'s challenge. Good luck! 🌟');
+    }
+
+    function snoozeAlert() {
+        dismissAlert();
+        isAlertSnoozed = true;
+        
+        // Un-snooze after 5 minutes (for demo, using 60 seconds)
+        setTimeout(() => {
+            isAlertSnoozed = false;
+        }, 60000);
+    }
+
+    // ========== VOICE INTERACTIONS ==========
+    function handleButtonClick(button, originalAction) {
+        const buttonId = button.id || button.textContent.trim() || button.className || 'button-' + Math.random();
+        const clickCount = buttonClickStates.get(buttonId) || 0;
+        
+        // Check if voice interactions are enabled
+        const voiceEnabled = localStorage.getItem('voiceInteractions') !== 'false';
+        
+        if (clickCount === 0 && voiceEnabled && 'speechSynthesis' in window) {
+            // First click - read the button label
+            let textToRead = button.getAttribute('aria-label') || 
+                            button.getAttribute('title') ||
+                            button.textContent.trim() ||
+                            button.value ||
+                            'Button';
+            
+            // Clean up text for better speech
+            textToRead = textToRead.replace(/[^\w\s]/gi, '').trim();
+            if (!textToRead) textToRead = 'Button';
+            
+            const utterance = new SpeechSynthesisUtterance(`Button: ${textToRead}`);
+            utterance.rate = 0.8;
+            utterance.pitch = 1;
+            utterance.volume = 0.8;
+            speechSynthesis.speak(utterance);
+            
+            buttonClickStates.set(buttonId, 1);
+            
+            // Add visual feedback
+            button.style.outline = '3px solid var(--caramel)';
+            button.style.transform = 'scale(1.05)';
+            button.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                button.style.outline = '';
+                button.style.transform = '';
+            }, 2000);
+            
+        } else {
+            // Second click or voice disabled - execute action
+            buttonClickStates.set(buttonId, 0);
+            
+            if (originalAction) {
+                originalAction();
+            }
+        }
+    }
+
+    // Enhanced button click handler
+    document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'BUTTON' || 
+            e.target.type === 'submit' || 
+            e.target.type === 'button' ||
+            e.target.classList.contains('btn') ||
+            e.target.classList.contains('post-action') ||
+            e.target.classList.contains('alert-btn') ||
+            e.target.hasAttribute('onclick')) {
+            
+            // Don't interfere with alert close buttons
+            if (e.target.classList.contains('alert-close') || 
+                e.target.onclick && e.target.onclick.toString().includes('dismissAlert')) {
+                return;
+            }
+            
+            e.preventDefault();
+            e.stopPropagation();
+            
+            let originalAction = null;
+            
+            if (e.target.type === 'submit') {
+                originalAction = () => {
+                    const form = e.target.closest('form');
+                    if (form) {
+                        const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                        form.dispatchEvent(submitEvent);
+                    }
+                };
+            } else if (e.target.onclick) {
+                originalAction = e.target.onclick.bind(e.target);
+            } else if (e.target.getAttribute('onclick')) {
+                originalAction = () => {
+                    try {
+                        const onclickCode = e.target.getAttribute('onclick');
+                        const func = new Function(onclickCode);
+                        func.call(e.target);
+                    } catch (error) {
+                        console.warn('Error executing onclick:', error);
+                    }
+                };
+            }
+            
+            handleButtonClick(e.target, originalAction);
+        }
+    });
+
+    // ========== SPEECH MODE INDICATOR ==========
+    function addSpeechModeIndicator() {
+        // Remove existing indicator if present
+        const existing = document.getElementById('speechModeIndicator');
+        if (existing) {
+            existing.remove();
+        }
+        
+        // Only show if voice interactions are enabled
+        if (localStorage.getItem('voiceInteractions') === 'false') {
+            return;
+        }
+        
+        const indicator = document.createElement('div');
+        indicator.id = 'speechModeIndicator';
+        indicator.className = 'speech-mode-indicator';
+        indicator.textContent = '🔊 Voice mode: Click buttons twice (first to hear, second to activate)';
+        document.body.appendChild(indicator);
+        
+        // Auto-hide after 8 seconds
+        setTimeout(() => {
+            if (indicator && indicator.parentNode) {
+                indicator.style.opacity = '0';
+                setTimeout(() => {
+                    if (indicator && indicator.parentNode) {
+                        indicator.remove();
+                    }
+                }, 500);
+            }
+        }, 8000);
+    }
+
+    // ========== SAMPLE DATA INITIALIZATION ==========
+    function initializeSampleData() {
+        // Initialize feed posts if not already present
+        if (!localStorage.getItem('feedPosts')) {
+            localStorage.setItem('feedPosts', JSON.stringify(samplePosts));
+        }
+        
+        // Initialize sample journal entries for demo
+        if (!localStorage.getItem('journalEntries')) {
+            const sampleEntries = [
+                {
+                    id: Date.now() - 1000,
+                    title: "Morning Reflections",
+                    content: "Started my day with gratitude and a warm cup of coffee. There's something magical about quiet morning moments.",
+                    privacy: "private",
+                    timestamp: new Date(Date.now() - 86400000).toLocaleString(),
+                    author: "Demo User"
+                },
+                {
+                    id: Date.now() - 2000,
+                    title: "Weekend Adventures",
+                    content: "Spent time in nature today. The fresh air and peaceful surroundings reminded me to slow down and appreciate the simple things.",
+                    privacy: "public",
+                    timestamp: new Date(Date.now() - 172800000).toLocaleString(),
+                    author: "Demo User"
+                }
+            ];
+            localStorage.setItem('journalEntries', JSON.stringify(sampleEntries));
+        }
+    }
+
+    // ========== RESPONSIVE HANDLERS ==========
+    function setupResponsiveHandlers() {
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                document.getElementById('navLinks').classList.remove('active');
+            }, 100);
+        });
+
+        // Handle resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const viewport = {
+                    width: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
+                    height: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+                };
+                
+                // Adjust font sizes based on viewport
+                if (viewport.width < 480) {
+                    document.documentElement.style.setProperty('--font-size-base', '0.9rem');
+                } else if (viewport.width < 768) {
+                    document.documentElement.style.setProperty('--font-size-base', '0.95rem');
+                } else {
+                    document.documentElement.style.setProperty('--font-size-base', '1rem');
+                }
+            }, 250);
+        });
+
+        // Touch event optimization
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        document.addEventListener('touchmove', function() {}, { passive: true });
+    }
+
+    // ========== KEYBOARD NAVIGATION ==========
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-nav');
+        }
+        
+        // Escape key functionality
+        if (e.key === 'Escape') {
+            document.getElementById('navLinks').classList.remove('active');
+            
+            const alert = document.getElementById('challengeAlert');
+            if (alert.classList.contains('show')) {
+                dismissAlert();
+            }
+        }
+        
+        // Quick navigation shortcuts (Alt + number)
+        if (e.altKey && !e.shiftKey && !e.ctrlKey) {
+            switch(e.key) {
+                case '1':
+                    e.preventDefault();
+                    showPage('landing');
+                    break;
+                case '2':
+                    e.preventDefault();
+                    if (currentUser) showPage('feed');
+                    break;
+                case '3':
+                    e.preventDefault();
+                    if (currentUser) showPage('journal');
+                    break;
+                case '4':
+                    e.preventDefault();
+                    if (currentUser) showPage('settings');
+                    break;
+            }
+        }
+    });
+
+    document.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-nav');
+    });
+
+    // ========== ERROR HANDLING ==========
+    window.addEventListener('error', function(e) {
+        console.error('Global error caught:', e.error);
+    });
+
+    window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+    });
+
+    // ========== DATA CLEANUP ==========
+    function cleanupOldData() {
+        try {
+            // Clean up old journal entries (keep last 50)
+            const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            if (entries.length > 50) {
+                const trimmedEntries = entries.slice(0, 50);
+                localStorage.setItem('journalEntries', JSON.stringify(trimmedEntries));
+            }
+            
+            // Clean up old posts (keep last 100)
+            const posts = JSON.parse(localStorage.getItem('feedPosts') || '[]');
+            if (posts.length > 100) {
+                const trimmedPosts = posts.slice(0, 100);
+                localStorage.setItem('feedPosts', JSON.stringify(trimmedPosts));
+            }
+        } catch (error) {
+            console.warn('Error during data cleanup:', error);
+        }
+    }
+
+    // Run cleanup periodically
+    setInterval(cleanupOldData, 300000); // Every 5 minutes
+
+    console.log('Whisp application fully initialized and ready!');
+
+    </script>
+</body>
+</html>

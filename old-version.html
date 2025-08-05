@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisp - Your Cozy Digital Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== GLOBAL STYLES ========== */
+        :root {
+            --mocha: #6F4E37;
+            --espresso: #3C2415;
+            --latte: #D2B48C;
+            --cream: #F5F5DC;
+            --caramel: #D2691E;
+            --burnt-sienna: #A0522D;
+            --dark-roast: #2F1B14;
+            --light-cream: #FAF9F6;
+            --gradient-warm: linear-gradient(135deg, var(--mocha) 0%, var(--caramel) 100%);
+            --shadow-soft: 0 4px 20px rgba(111, 78, 55, 0.15);
+            --shadow-hover: 0 8px 30px rgba(111, 78, 55, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light-cream) 0%, var(--cream) 100%);
+            color: var(--dark-roast);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            background: var(--gradient-warm);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--light-cream);
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "☕";
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light-cream);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ========== MAIN CONTENT AREAS ========== */
+        .main-content {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== CARDS & COMPONENTS ========== */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            background: var(--gradient-warm);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: var(--latte);
+            color: var(--dark-roast);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--mocha);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--latte);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--light-cream);
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--mocha);
+            background: white;
+        }
+
+        /* ========== LANDING PAGE ========== */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: var(--gradient-warm);
+            color: white;
+            margin: -2rem -20px 2rem -20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* ========== FEED STYLES ========== */
+        .post {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cream);
+        }
+
+        .post-action {
+            background: none;
+            border: none;
+            color: var(--mocha);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .post-action:hover {
+            background: var(--cream);
+        }
+
+        .post-action.liked {
+            color: var(--caramel);
+            background: var(--cream);
+        }
+
+        /* ========== JOURNAL STYLES ========== */
+        .journal-entry {
+            border-left: 4px solid var(--mocha);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .journal-entry.private {
+            border-left-color: var(--caramel);
+            background: rgba(210, 105, 30, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .journal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--mocha);
+        }
+
+        .privacy-badge {
+            background: var(--mocha);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .privacy-badge.private {
+            background: var(--caramel);
+        }
+
+        /* ========== SETTINGS STYLES ========== */
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h3 {
+            color: var(--mocha);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--mocha);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* ========== ALERT/NOTIFICATION STYLES ========== */
+        .alert {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--gradient-warm);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-hover);
+            max-width: 350px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.5s ease;
+        }
+
+        .alert.show {
+            transform: translateX(0);
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .alert-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .alert-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--mocha);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .post-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* ========== AUTH PAGES STYLES ========== */
+        .auth-container {
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 0 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-hover);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            color: var(--mocha);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .auth-form {
+            text-align: left;
+        }
+
+        .auth-link {
+            color: var(--mocha);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            color: var(--caramel);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #2e7d32;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo" onclick="showPage('landing')">Whisp</a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" onclick="showPage('feed')" data-page="feed">Feed</a></li>
+                    <li><a href="#" onclick="showPage('journal')" data-page="journal">Journal</a></li>
+                    <li><a href="#" onclick="showPage('settings')" data-page="settings">Settings</a></li>
+                    <li><a href="#" onclick="logout()" id="logoutBtn" style="display: none;">Logout</a></li>
+                    <li><a href="#" onclick="showPage('login')" id="loginBtn">Login</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="page active">
+            <div class="hero">
+                <h1>Welcome to Whisp</h1>
+                <p>Your cozy digital space for journaling, challenges, and mindful living</p>
+                <a href="#" class="btn" onclick="showPage('signup')">Get Started</a>
+                <a href="#" class="btn btn-secondary" onclick="showPage('login')">Sign In</a>
+            </div>
+            
+            <div class="main-content">
+                <div class="card">
+                    <h2>Features</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                        <div>
+                            <h3>📖 Personal Journal</h3>
+                            <p>Keep your thoughts safe with privacy controls</p>
+                        </div>
+                        <div>
+                            <h3>🏆 Daily Challenges</h3>
+                            <p>Stay motivated with personalized daily goals</p>
+                        </div>
+                        <div>
+                            <h3>🗣️ Accessibility First</h3>
+                            <p>Voice interactions and inclusive design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Welcome Back</h2>
+                    <form class="auth-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required>
+                            <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" required>
+                            <div class="error-message" id="loginPasswordError">Password is required</div>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Sign In</button>
+                        <div class="success-message" id="loginSuccess">Login successful! Redirecting...</div>
+                    </form>
+                    <p>Don't have an account? <a href="#" class="auth-link" onclick="showPage('signup')">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div id="signup" class="page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Join Whisp</h2>
+                    <form class="auth-form" id="signupForm">
+                        <div class="form-group">
+                            <label for="signupName">Full Name</label>
+                            <input type="text" id="signupName" required>
+                            <div class="error-message" id="signupNameError">Name is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" required>
+                            <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" required>
+                            <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" required>
+                            <div class="error-message" id="signupConfirmPasswordError">Passwords don't match</div>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Create Account</button>
+                        <div class="success-message" id="signupSuccess">Account created! Redirecting...</div>
+                    </form>
+                    <p>Already have an account? <a href="#" class="auth-link" onclick="showPage('login')">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Page -->
+        <div id="feed" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">Your Feed</h1>
+                
+                <div id="feedContainer">
+                    <!-- Sample posts will be loaded here -->
+                </div>
+                
+                <div class="card">
+                    <h3>Share Something</h3>
+                    <form id="newPostForm">
+                        <div class="form-group">
+                            <textarea id="postContent" placeholder="What's on your mind?" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Share</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journal Page -->
+        <div id="journal" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">My Journal</h1>
+                
+                <div class="card">
+                    <h3>New Entry</h3>
+                    <form id="journalForm">
+                        <div class="form-group">
+                            <label for="journalTitle">Title</label>
+                            <input type="text" id="journalTitle" placeholder="Entry title..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="journalContent">Content</label>
+                            <textarea id="journalContent" placeholder="What's on your mind today?" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="journalPrivacy">Privacy</label>
+                            <select id="journalPrivacy">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Save Entry</button>
+                    </form>
+                </div>
+
+                <div id="journalEntries">
+                    <!-- Journal entries will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settings" class="page">
+            <div class="main-content">
+                <h1 style="color: var(--mocha); margin-bottom: 2rem;">Settings</h1>
+                
+                <div class="card">
+                    <div class="settings-section">
+                        <h3>Account Settings</h3>
+                        <form id="accountForm">
+                            <div class="form-group">
+                                <label for="accountName">Full Name</label>
+                                <input type="text" id="accountName" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="accountEmail">Email</label>
+                                <input type="email" id="accountEmail" value="">
+                            </div>
+                            <button type="submit" class="btn">Update Account</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="settings-section">
+                        <h3>Preferences</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <label>Daily Challenge Notifications</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notificationsToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <label>Parental Controls</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="parentalControlToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label>Voice Interactions</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="voiceToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Challenge Alert -->
+    <div id="challengeAlert" class="alert">
+        <div class="alert-header">
+            <strong>Daily Challenge ☀️</strong>
+            <button class="alert-close" onclick="dismissAlert()">&times;</button>
+        </div>
+        <p id="challengeText">Take a 5-minute mindfulness break and reflect on three things you're grateful for today.</p>
+        <div class="alert-actions">
+            <button class="alert-btn" onclick="acceptChallenge()">Accept</button>
+            <button class="alert-btn" onclick="snoozeAlert()">Snooze</button>
+        </div>
+    </div>
+
+    <script>
+    // ========== GLOBAL STATE ========== 
+    let currentUser = null;
+    let buttonClickStates = new Map();
+    let alertInterval = null;
+    let isAlertSnoozed = false;
+
+    // Sample data
+    const samplePosts = [
+        {
+            id: 1,
+            author: "Coffee Lover",
+            avatar: "CL",
+            content: "Just had the most amazing latte art experience! Sometimes the simple pleasures make the biggest difference. ☕✨",
+            timestamp: "2 hours ago",
+            likes: 12,
+            comments: 3,
+            liked: false
+        },
+        {
+            id: 2,
+            author: "Mindful Maven",
+            avatar: "MM",
+            content: "Completed my morning journaling session. There's something magical about putting thoughts to paper with a warm cup in hand.",
+            timestamp: "4 hours ago",
+            likes: 8,
+            comments: 1,
+            liked: false
+        },
+        {
+            id: 3,
+            author: "Daily Challenger",
+            avatar: "DC",
+            content: "Day 15 of my gratitude challenge! Today I'm grateful for cozy spaces, good books, and the community here at Whisp. 🙏",
+            timestamp: "6 hours ago",
+            likes: 15,
+            comments: 5,
+            liked: false
+        }
+    ];
+
+    const dailyChallenges = [
+        "Take a 5-minute mindfulness break and reflect on three things you're grateful for today.",
+        "Write down one small goal for today and take the first step toward achieving it.",
+        "Reach out to someone you care about and let them know you're thinking of them.",
+        "Spend 10 minutes in nature or by a window, observing the world around you.",
+        "Practice deep breathing for 3 minutes and notice how your body feels.",
+        "Create something small - a doodle, a poem, or rearrange a space you love.",
+        "Take a break from screens for 30 minutes and engage in a mindful activity."
+    ];
+
+    // ========== INITIALIZATION ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        loadUserData();
+        loadJournalEntries();
+        loadFeedPosts();
+        setupEventListeners();
+        startDailyChallengeAlerts();
+        
+        // Check if user is logged in
+        if (localStorage.getItem('whispUser')) {
+            currentUser = JSON.parse(localStorage.getItem('whispUser'));
+            updateAuthState(true);
+        }
+    });
+
+    // ========== NAVIGATION ==========
+    function showPage(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Show selected page
+        document.getElementById(pageId).classList.add('active');
+        
+        // Update navigation active state
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+
+        // Close mobile menu
+        document.getElementById('navLinks').classList.remove('active');
+
+        // Restricted pages check
+        if (['feed', 'journal', 'settings'].includes(pageId) && !currentUser) {
+            showPage('login');
+            return;
+        }
+    }
+
+    function toggleMobileMenu() {
+        document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    // ========== AUTHENTICATION ==========
+    function setupEventListeners() {
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        // Signup form
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleSignup();
+        });
+
+        // Account settings form
+        document.getElementById('accountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateAccountSettings();
+        });
+
+        // Journal form
+        document.getElementById('journalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveJournalEntry();
+        });
+
+        // New post form
+        document.getElementById('newPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createNewPost();
+        });
+
+        // Settings toggles
+        document.getElementById('parentalControlToggle').addEventListener('change', function() {
+            localStorage.setItem('parentalControls', this.checked);
+        });
+
+        document.getElementById('notificationsToggle').addEventListener('change', function() {
+            localStorage.setItem('challengeNotifications', this.checked);
+            if (this.checked) {
+                startDailyChallengeAlerts();
+            } else {
+                stopDailyChallengeAlerts();
+            }
+        });
+
+        document.getElementById('voiceToggle').addEventListener('change', function() {
+            localStorage.setItem('voiceInteractions', this.checked);
+        });
+    }
+
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    function hideError(elementId) {
+        document.getElementById(elementId).style.display = 'none';
+    }
+
+    function showSuccess(elementId, message) {
+        const successElement = document.getElementById(elementId);
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+    }
+
+    function handleLogin() {
+        // Clear previous errors
+        hideError('loginEmailError');
+        hideError('loginPasswordError');
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        let isValid = true;
+
+        // Validation
+        if (!email || !validateEmail(email)) {
+            showError('loginEmailError', 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!password) {
+            showError('loginPasswordError', 'Password is required');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Simulate successful login
+            currentUser = {
+                name: 'Demo User',
+                email: email,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            showSuccess('loginSuccess', 'Login successful! Redirecting...');
+            
+            setTimeout(() => {
+                updateAuthState(true);
+                showPage('feed');
+            }, 1500);
+        }
+    }
+
+    function handleSignup() {
+        // Clear previous errors
+        hideError('signupNameError');
+        hideError('signupEmailError');
+        hideError('signupPasswordError');
+        hideError('signupConfirmPasswordError');
+
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        let isValid = true;
+
+        // Validation
+        if (!name.trim()) {
+            showError('signupNameError', 'Full name is required');
+            isValid = false;
+        }
+
+        if (!email || !validateEmail(email)) {
+            showError('signupEmailError', 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!password || password.length < 6) {
+            showError('signupPasswordError', 'Password must be at least 6 characters long');
+            isValid = false;
+        }
+
+        if (password !== confirmPassword) {
+            showError('signupConfirmPasswordError', 'Passwords do not match');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Simulate successful signup
+            currentUser = {
+                name: name,
+                email: email,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            showSuccess('signupSuccess', 'Account created successfully! Redirecting...');
+            
+            setTimeout(() => {
+                updateAuthState(true);
+                showPage('feed');
+            }, 1500);
+        }
+    }
+
+    function updateAuthState(isLoggedIn) {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        if (isLoggedIn) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+            loadUserData();
+        } else {
+            loginBtn.style.display = 'block';
+            logoutBtn.style.display = 'none';
+        }
+    }
+
+    function logout() {
+        currentUser = null;
+        localStorage.removeItem('whispUser');
+        updateAuthState(false);
+        showPage('landing');
+    }
+
+    function loadUserData() {
+        if (currentUser) {
+            document.getElementById('accountName').value = currentUser.name || '';
+            document.getElementById('accountEmail').value = currentUser.email || '';
+        }
+        
+        // Load settings from localStorage
+        document.getElementById('parentalControlToggle').checked = 
+            localStorage.getItem('parentalControls') === 'true';
+        document.getElementById('notificationsToggle').checked = 
+            localStorage.getItem('challengeNotifications') !== 'false';
+        document.getElementById('voiceToggle').checked = 
+            localStorage.getItem('voiceInteractions') !== 'false';
+    }
+
+    function updateAccountSettings() {
+        const name = document.getElementById('accountName').value;
+        const email = document.getElementById('accountEmail').value;
+        
+        if (currentUser) {
+            currentUser.name = name;
+            currentUser.email = email;
+            localStorage.setItem('whispUser', JSON.stringify(currentUser));
+            
+            // Show success message
+            const btn = document.querySelector('#accountForm button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Updated!';
+            btn.style.background = 'var(--burnt-sienna)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+    }
+
+    // ========== JOURNAL FUNCTIONALITY ==========
+    function saveJournalEntry() {
+        const title = document.getElementById('journalTitle').value;
+        const content = document.getElementById('journalContent').value;
+        const privacy = document.getElementById('journalPrivacy').value;
+        
+        if (!title.trim() || !content.trim()) {
+            alert('Please fill in both title and content');
+            return;
+        }
+        
+        const entry = {
+            id: Date.now(),
+            title: title,
+            content: content,
+            privacy: privacy,
+            timestamp: new Date().toLocaleString(),
+            author: currentUser ? currentUser.name : 'Anonymous'
+        };
+        
+        let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+        entries.unshift(entry);
+        localStorage.setItem('journalEntries', JSON.stringify(entries));
+        
+        // Clear form
+        document.getElementById('journalTitle').value = '';
+        document.getElementById('journalContent').value = '';
+        document.getElementById('journalPrivacy').value = 'private';
+        
+        // Reload entries
+        loadJournalEntries();
+        
+        // Show success
+        const btn = document.querySelector('#journalForm button');
+        const originalText = btn.textContent;
+        btn.textContent = 'Saved!';
+        btn.style.background = 'var(--burnt-sienna)';
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+        }, 2000);
+    }
+
+    function loadJournalEntries() {
+        const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+        const container = document.getElementById('journalEntries');
+        
+        if (entries.length === 0) {
+            container.innerHTML = '<div class="card"><p style="text-align: center; color: var(--mocha); font-style: italic;">No journal entries yet. Start by creating your first entry above!</p></div>';
+            return;
+        }
+        
+        container.innerHTML = entries.map(entry => `
+            <div class="card">
+                <div class="journal-entry ${entry.privacy}">
+                    <div class="journal-meta">
+                        <span><strong>${entry.title}</strong></span>
+                        <div>
+                            <span class="privacy-badge ${entry.privacy}">${entry.privacy}</span>
+                            <span style="margin-left: 1rem;">${entry.timestamp}</span>
+                        </div>
+                    </div>
+                    <p>${entry.content}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ========== FEED FUNCTIONALITY ==========
+    function loadFeedPosts() {
+        const posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        const container = document.getElementById('feedContainer');
+        
+        container.innerHTML = posts.map(post => `
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-avatar">${post.avatar}</div>
+                    <div>
+                        <h4>${post.author}</h4>
+                        <span style="color: var(--mocha); font-size: 0.9rem;">${post.timestamp}</span>
+                    </div>
+                </div>
+                <p>${post.content}</p>
+                <div class="post-actions">
+                    <button class="post-action ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                        ${post.liked ? '❤️' : '🤍'} ${post.likes}
+                    </button>
+                    <button class="post-action" onclick="showComments(${post.id})">
+                        💬 ${post.comments}
+                    </button>
+                    <button class="post-action" onclick="sharePost(${post.id})">
+                        📤 Share
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function createNewPost() {
+        const content = document.getElementById('postContent').value.trim();
+        
+        if (!content) {
+            alert('Please write something to share!');
+            return;
+        }
+        
+        const newPost = {
+            id: Date.now(),
+            author: currentUser ? currentUser.name : 'Anonymous',
+            avatar: currentUser ? currentUser.name.split(' ').map(n => n[0]).join('') : 'A',
+            content: content,
+            timestamp: 'Just now',
+            likes: 0,
+            comments: 0,
+            liked: false
+        };
+        
+        let posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        posts.unshift(newPost);
+        localStorage.setItem('feedPosts', JSON.stringify(posts));
+        
+        // Clear form
+        document.getElementById('postContent').value = '';
+        
+        // Reload feed
+        loadFeedPosts();
+    }
+
+    function toggleLike(postId) {
+        let posts = JSON.parse(localStorage.getItem('feedPosts') || JSON.stringify(samplePosts));
+        const post = posts.find(p => p.id === postId);
+        
+        if (post) {
+            post.liked = !post.liked;
+            post.likes += post.liked ? 1 : -1;
+            localStorage.setItem('feedPosts', JSON.stringify(posts));
+            loadFeedPosts();
+        }
+    }
+
+    function showComments(postId) {
+        alert('Comments feature coming soon! 💬');
+    }
+
+    function sharePost(postId) {
+        alert('Post shared! 📤');
+    }
+
+    // ========== DAILY CHALLENGE ALERTS ==========
+    function startDailyChallengeAlerts() {
+        if (localStorage.getItem('challengeNotifications') === 'false') return;
+        
+        // For demo purposes, show alert every 30 seconds
+        // In production, this would be much longer (e.g., daily)
+        alertInterval = setInterval(() => {
+            if (!isAlertSnoozed) {
+                showDailyChallengeAlert();
+            }
+        }, 30000);
+        
+        // Show initial alert after 5 seconds
+        setTimeout(() => {
+            if (!isAlertSnoozed) {
+                showDailyChallengeAlert();
+            }
+        }, 5000);
+    }
+
+    function stopDailyChallengeAlerts() {
+        if (alertInterval) {
+            clearInterval(alertInterval);
+            alertInterval = null;
+        }
+    }
+
+    function showDailyChallengeAlert() {
+        const randomChallenge = dailyChallenges[Math.floor(Math.random() * dailyChallenges.length)];
+        document.getElementById('challengeText').textContent = randomChallenge;
+        document.getElementById('challengeAlert').classList.add('show');
+    }
+
+    function dismissAlert() {
+        document.getElementById('challengeAlert').classList.remove('show');
+    }
+
+    function acceptChallenge() {
+        dismissAlert();
+        alert('Great! You\'ve accepted today\'s challenge. Good luck! 🌟');
+    }
+
+    function snoozeAlert() {
+        dismissAlert();
+        isAlertSnoozed = true;
+        
+        // Un-snooze after 5 minutes (for demo, using 60 seconds)
+        setTimeout(() => {
+            isAlertSnoozed = false;
+        }, 60000);
+    }
+
+    // ========== SPEECH SYNTHESIS (ACCESSIBILITY) ==========
+    function handleButtonClick(button, originalAction) {
+        const buttonId = button.id || button.textContent.trim();
+        const clickCount = buttonClickStates.get(buttonId) || 0;
+        
+        // Check if voice interactions are enabled
+        const voiceEnabled = localStorage.getItem('voiceInteractions') !== 'false';
+        
+        if (clickCount === 0 && voiceEnabled && 'speechSynthesis' in window) {
+            // First click - read the button label
+            const textToRead = button.getAttribute('aria-label') || 
+                              button.textContent.trim() || 
+                              'Button';
+            
+            const utterance = new SpeechSynthesisUtterance(`Button: ${textToRead}`);
+            utterance.rate = 0.8;
+            utterance.pitch = 1;
+            speechSynthesis.speak(utterance);
+            
+            buttonClickStates.set(buttonId, 1);
+            
+            // Add visual feedback
+            button.style.outline = '3px solid var(--caramel)';
+            button.style.transform = 'scale(1.05)';
+            
+            setTimeout(() => {
+                button.style.outline = '';
+                button.style.transform = '';
+            }, 1000);
+            
+        } else {
+            // Second click or voice disabled - execute action
+            buttonClickStates.set(buttonId, 0);
+            if (originalAction) {
+                originalAction();
+            }
+        }
+    }
+
+    // Override button clicks for accessibility
+    document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'BUTTON' && !e.target.classList.contains('alert-close') && !e.target.classList.contains('alert-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            let originalAction = null;
+            
+            // Determine the original action based on button context
+            if (e.target.type === 'submit') {
+                originalAction = () => {
+                    const form = e.target.closest('form');
+                    if (form) {
+                        form.dispatchEvent(new Event('submit'));
+                    }
+                };
+            } else if (e.target.onclick) {
+                originalAction = e.target.onclick;
+            } else if (e.target.getAttribute('onclick')) {
+                originalAction = () => {
+                    eval(e.target.getAttribute('onclick'));
+                };
+            }
+            
+            handleButtonClick(e.target, originalAction);
+        }
+    });
+
+    // ========== UTILITY FUNCTIONS ==========
+    function formatDate(date) {
+        return new Date(date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    function generateAvatar(name) {
+        return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
+
+    // ========== SAMPLE DATA INITIALIZATION ==========
+    function initializeSampleData() {
+        // Initialize with sample journal entries if none exist
+        if (!localStorage.getItem('journalEntries')) {
+            const sampleEntries = [
+                {
+                    id: 1,
+                    title: "Morning Reflections",
+                    content: "Started my day with a warm cup of coffee and some quiet time. There's something magical about those first few moments of the day when everything feels possible.",
+                    privacy: "private",
+                    timestamp: new Date(Date.now() - 86400000).toLocaleString(),
+                    author: "Demo User"
+                },
+                {
+                    id: 2,
+                    title: "Gratitude Practice",
+                    content: "Three things I'm grateful for today: 1) The supportive community here at Whisp, 2) The opportunity to grow and learn, 3) Simple moments of joy throughout the day.",
+                    privacy: "public",
+                    timestamp: new Date(Date.now() - 172800000).toLocaleString(),
+                    author: "Demo User"
+                }
+            ];
+            localStorage.setItem('journalEntries', JSON.stringify(sampleEntries));
+        }
+        
+        // Initialize feed posts if none exist
+        if (!localStorage.getItem('feedPosts')) {
+            localStorage.setItem('feedPosts', JSON.stringify(samplePosts));
+        }
+    }
+
+    // Initialize sample data on first load
+    initializeSampleData();
+    </script>
+
+    </body>
+</html>
