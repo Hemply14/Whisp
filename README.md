@@ -20,4 +20,4 @@ A cozy digital space designed for meaningful social interactions, personal journ
 Created as a demonstration of building inclusive, accessible web applications that prioritize user wellbeing and meaningful connections.
 
 ## Live Demo
-Check out the live version: [https://yourusername.github.io/repository-name](https://yourusername.github.io/repository-name)
+Check out the live version: (https://hemply14.github.io/Whisp/)
